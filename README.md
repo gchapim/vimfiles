@@ -1,6 +1,5 @@
 # vimfiles
-
-## Vimfiles config for ruby
+Vim config for ruby
 
 ## Installation
 open vim and `:PluginInstall`
