@@ -80,6 +80,10 @@ Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'scrooloose/syntastic'
 
+Plugin 'neomake/neomake'
+
+Plugin 'elixir-editors/vim-elixir'
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -100,3 +104,14 @@ inoremap <expr> <c-k> ("\<C-p>")
 let g:ruby_indent_access_modifier_style = 'normal'
 let g:ruby_indent_assignment_style = 'variable'
 let g:ruby_indent_block_style = 'do'
+
+nnoremap ; :
+set noswapfile
+
+let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_enable_elixir_checker = 1
+let g:syntastic_elixir_checkers = ['elixir']
+set clipboard=unnamedplus
+
+let g:neomake_elixir_enabled_makers = ['credo']
+autocmd! BufWritePost * Neomake
