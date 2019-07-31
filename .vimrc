@@ -44,6 +44,9 @@ inoremap <S-Up> <Esc>:m .-2<CR>==gi
 vnoremap <S-Down> :m '>+1<CR>gv=gv
 vnoremap <S-Up> :m '<-2<CR>gv=gv
 
+vnoremap > >gv
+vnoremap < <gv
+
 set nocompatible              " be iMproved, required
 set number
 set shell=zsh
