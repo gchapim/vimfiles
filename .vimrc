@@ -1,6 +1,46 @@
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+Plug 'whatyouhide/vim-gotham'
+
+Plug 'vim-airline/vim-airline'
+
+Plug 'https://github.com/neomake/neomake'
+
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'kien/ctrlp.vim'
+
+Plug 'ascenator/L9', {'name': 'newL9'}
+
+Plug 'vim-ruby/vim-ruby'
+
+Plug 'tpope/vim-rails'
+
+Plug 'MarcWeber/vim-addon-mw-utils'
+
+Plug 'tomtom/tlib_vim'
+
+Plug 'garbas/vim-snipmate'
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'scrooloose/syntastic'
+
+Plug 'elixir-editors/vim-elixir'
+
+Plug 'tpope/vim-commentary'
+" Initialize plugin system
+call plug#end()
+
+
 set nocompatible              " be iMproved, required
 set number
-set shell=bash
+set shell=zsh
 syntax on 
 filetype plugin indent on
 filetype on
@@ -23,66 +63,10 @@ nmap :s :split
 " nnoremap <C-a> <C-w>
 "Pathogen
 set nocp
-call pathogen#infect()
 
-" Set SPELLCHeCK YYAH
-set spell spelllang=en_ca
-" hi SpellBad cterm=underline,bold
-"set highlight SpellBad      ctermfg=Red         term=Reverse        guisp=Red       gui=undercurl   ctermbg=White
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-" set ctrlP plugin
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-" allow vim to jump through directories for ctags
-set tags=tags;/
-syntax enable
-let g:solarized_termcolors = 16
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" Scala highlights
-Plugin 'derekwyatt/vim-scala'
-" neocomplete Plugin
-Plugin 'Shougo/neocomplete.vim'
-" show git diif in vim
-Plugin 'airblade/vim-gitgutter'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Install L9 and avoid a Naming conflict if you've already
-" installed a
-" different version somewhere else.
-Plugin 'ascenator/L9', {'name': 'newL9'}
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-" Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-
-" Files stucture tree
-Plugin 'scrooloose/nerdtree'
-map <C-n> :NERDTreeToggle<CR>
-
-Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 nnoremap <leader>. :CtrlPTag<cr>
-
-Plugin 'whatyouhide/vim-gotham'
-colorscheme gotham
-
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'scrooloose/syntastic'
-
-Plugin 'neomake/neomake'
-
-Plugin 'elixir-editors/vim-elixir'
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -93,14 +77,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-call vundle#end()            " required
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-" Move up and down in autocomplete with <c-j> and <c-k>
-inoremap <expr> <c-j> ("\<C-n>")
-inoremap <expr> <c-k> ("\<C-p>")
-
 let g:ruby_indent_access_modifier_style = 'normal'
 let g:ruby_indent_assignment_style = 'variable'
 let g:ruby_indent_block_style = 'do'
@@ -108,10 +84,24 @@ let g:ruby_indent_block_style = 'do'
 nnoremap ; :
 set noswapfile
 
-let g:syntastic_ruby_checkers = ['rubocop']
+colorscheme gotham
+nnoremap ; :
+set noswapfile
+
+map <C-n> :NERDTreeToggle<CR>
+
 let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_elixir_checkers = ['elixir']
 set clipboard=unnamedplus
 
 let g:neomake_elixir_enabled_makers = ['credo']
 autocmd! BufWritePost * Neomake
+
+" CtrlP + The Silver Searcher
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ag_working_path_mode="r"
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
