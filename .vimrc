@@ -37,6 +37,12 @@ Plug 'tpope/vim-commentary'
 " Initialize plugin system
 call plug#end()
 
+nnoremap <S-Down> :m .+1<CR>==
+nnoremap <S-Up> :m .-2<CR>==
+inoremap <S-Down> <Esc>:m .+1<CR>==gi
+inoremap <S-Up> <Esc>:m .-2<CR>==gi
+vnoremap <S-Down> :m '>+1<CR>gv=gv
+vnoremap <S-Up> :m '<-2<CR>gv=gv
 
 set nocompatible              " be iMproved, required
 set number
@@ -85,8 +91,6 @@ nnoremap ; :
 set noswapfile
 
 colorscheme gotham
-nnoremap ; :
-set noswapfile
 
 map <C-n> :NERDTreeToggle<CR>
 
