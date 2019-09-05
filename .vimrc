@@ -9,8 +9,6 @@ Plug 'whatyouhide/vim-gotham'
 
 Plug 'vim-airline/vim-airline'
 
-Plug 'https://github.com/neomake/neomake'
-
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'kien/ctrlp.vim'
@@ -29,11 +27,14 @@ Plug 'garbas/vim-snipmate'
 
 Plug 'tpope/vim-fugitive'
 
-Plug 'scrooloose/syntastic'
-
 Plug 'elixir-editors/vim-elixir'
 
 Plug 'tpope/vim-commentary'
+
+Plug 'dense-analysis/ale'
+
+Plug 'mhinz/vim-mix-format'
+
 " Initialize plugin system
 call plug#end()
 
@@ -44,9 +45,6 @@ inoremap <S-Up> <Esc>:m .-2<CR>==gi
 vnoremap <S-Down> :m '>+1<CR>gv=gv
 vnoremap <S-Up> :m '<-2<CR>gv=gv
 
-vnoremap > >gv
-vnoremap < <gv
-
 set nocompatible              " be iMproved, required
 set number
 set shell=zsh
@@ -55,22 +53,14 @@ filetype plugin indent on
 filetype on
 filetype indent on
 filetype plugin on
-set clipboard=unnamed
 set backspace=indent,eol,start
 autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
 autocmd FileType eruby setlocal expandtab shiftwidth=2 tabstop=2
 
 let loaded_netrwPlugin = 1
-" remap splitting windows
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-" remap splits
 nmap :vs :vsplit
 nmap :s :split
 " nnoremap <C-a> <C-w>
-"Pathogen
 set nocp
 
 let g:ctrlp_map = '<c-p>'
@@ -81,14 +71,35 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 let g:ruby_indent_access_modifier_style = 'normal'
 let g:ruby_indent_assignment_style = 'variable'
 let g:ruby_indent_block_style = 'do'
+
+" Set specific linters
+let g:ale_linters = {
+\   'elixir': ['elixir-ls', 'credo', 'dialyzer'],
+\}
+
+let g:airline#extensions#ale#enabled = 1
+let g:ale_completion_enabled = 1
+" Write this in your vimrc file
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+" You can disable this option too
+" if you don't want linters to run on opening a file
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+
+let g:mix_format_on_save = 1
+let g:mix_format_silent_errors = 1
+
+noremap <Leader>ad :ALEGoToDefinition<CR>
+nnoremap <leader>af :ALEFix<cr>
+noremap <Leader>ar :ALEFindReferences<CR>
+"Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
 
 nnoremap ; :
 set noswapfile
@@ -97,12 +108,9 @@ colorscheme gotham
 
 map <C-n> :NERDTreeToggle<CR>
 
-let g:syntastic_enable_elixir_checker = 1
-let g:syntastic_elixir_checkers = ['elixir']
 set clipboard=unnamedplus
 
-let g:neomake_elixir_enabled_makers = ['credo']
-autocmd! BufWritePost * Neomake
+setlocal formatprg=mix\ format\ -
 
 " CtrlP + The Silver Searcher
 if executable('ag')
